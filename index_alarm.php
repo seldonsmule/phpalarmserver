@@ -1,5 +1,13 @@
 <?php
 
+/*-------------------------------------------------------------------------
+  index_admin.php
+
+  This file is copied or softlinked to the rootdocument directory of the
+  webserver as index.php
+
+-------------------------------------------------------------------------*/
+
   require_once('phpalarmserver/config.php');
   require_once('phpalarmserver/alarmstate.php');
   require_once('phpalarmserver/db.php');
