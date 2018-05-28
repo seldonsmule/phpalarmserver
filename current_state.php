@@ -23,6 +23,7 @@ if($state->setup()){
   printf("Last state saved in DB\n");
   print_r($state);
 //printf("raw[%s]\n", str_replace("\r\n","",$state->last_raw_msg));
+  $state->write_html($GLOBALS['g_html_state_file']);
 
 }else{
   printf("NEW DATABASE\n");

@@ -144,6 +144,75 @@ class AlarmState {
      return $this->b_state_set;
   }
 
+  // write an small html file of current state
+  function write_html($filename){
+
+    $state_color = "pink";
+    $state_text = "Unknown";
+    $description_text = "Unknown";
+
+    if($this->b_disarmed){
+      $state_color = "green";
+      $state_text = "Disarmed";
+      $description_text = "Alarm not set";
+    }else{
+      $state_color = "red";
+      $state_text = "Armed";
+      if($this->b_armed_away){
+        $description_text = "Alarm set to Away mode";
+      }else if($this->b_armed_stay){
+        $description_text = "Alarm set to Stay mode";
+        if($this->b_armed_instant){
+          $description_text = "Alarm set to Instant mode";
+        }
+      }
+    }
+
+    $time_text = date("H:i:s", $this->timestamp);
+    $date_text = date("m/d/Y", $this->timestamp);
+
+    $fp = fopen($filename, "w");
+
+    fprintf($fp, "<html>\n");
+
+    fprintf($fp, "<head>\n");
+    fprintf($fp, "  <style>\n");
+    fprintf($fp, "    table, th, td {\n");
+    fprintf($fp, "      border: 1px solid black;\n");
+    fprintf($fp, "      border-collapse: collapse;\n");
+    fprintf($fp, "      text-align: left;\n");
+    fprintf($fp, "    }\n");
+    fprintf($fp, "  </style>\n");
+    fprintf($fp, "</head>\n");
+
+    fprintf($fp, "<body>\n");
+
+    fprintf($fp, "  <table>\n");
+    fprintf($fp, "    <tr>\n");
+    fprintf($fp, "      <th>State</th>\n");
+    fprintf($fp, "      <th>Description</th>\n");
+    fprintf($fp, "      <th>Time</th>\n");
+    fprintf($fp, "      <th>Date</th>\n");
+    fprintf($fp, "      <th>Raw Message</th>\n");
+    fprintf($fp, "    </tr>\n");
+
+    fprintf($fp, "    <tr>\n");
+    fprintf($fp, "      <td><font color=\"%s\">%s</font></td>\n", $state_color, $state_text);
+    fprintf($fp, "      <td>%s</td>\n", $description_text);
+    fprintf($fp, "      <td>%s</td>\n", $time_text);
+    fprintf($fp, "      <td>%s</td>\n", $date_text);
+    fprintf($fp, "      <td>%s</td>\n", $this->last_raw_msg);
+    fprintf($fp, "    </tr>\n");
+
+    fprintf($fp, "  </table>\n");
+
+    fprintf($fp, "</body>\n");
+
+    fprintf($fp, "</html>\n");
+
+    fclose($fp);
+  }
+
 } // end AlarmState
 
 

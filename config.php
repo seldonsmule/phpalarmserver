@@ -3,6 +3,10 @@
   $g_working_dir = "/Applications/MAMP/htdocs/phpalarmserver";
   $g_admin_mode = false; // if true - stop accepting web request
 
+  // optional state file for a status web server (no server side scripting)
+  // to at least have the current alarm state for display
+  $g_html_state_file = "/Users/rxe789/SecuritySpy/Web/alarm_state.html";
+
   class EgcConfig{
 
     var $working_dir;

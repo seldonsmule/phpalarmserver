@@ -87,6 +87,7 @@ while(true){
 
              $mylog->log(__FILE__,__LINE__,"---New state change: Begin----");
              $mylog->log(__FILE__,__LINE__, json_encode($state));
+             $state->write_html($GLOBALS['g_html_state_file']);
              //$db->save_state_change($state);
              $mylog->log(__FILE__,__LINE__,"---New state change: End----");
           }
