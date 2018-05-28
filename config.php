@@ -1,11 +1,11 @@
 <?php
 
-  $unix=php_uname($mode="s");
+  $g_unix=php_uname($mode="s");
 
 // you may want to create a different working directory and change
 // the location below
 
-  if($unix == "Linux"){
+  if($g_unix == "Linux"){
     $g_working_dir = "/var/www/html/phpalarmserver";
     // optional state file for a status web server (no server side scripting)
     // to at least have the current alarm state for display
