@@ -1,10 +1,6 @@
 # /bin/sh
 
-ROOTDIR=/Applications/MAMP
-BINDIR=$ROOTDIR/bin
-HTDOCSDIR=$ROOTDIR/htdocs
-ALDDIR=$HTDOCSDIR/phpalarmserver
-SCRIPTSDIR=$ALDDIR/scripts
+. ./config.sh
 
 # put our startup scripts in place
 ln -s $SCRIPTSDIR/egc* $BINDIR

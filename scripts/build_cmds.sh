@@ -1,11 +1,6 @@
 # /bin/sh
 
-ROOTDIR=/Applications/MAMP
-BINDIR=$ROOTDIR/bin
-HTDOCSDIR=$ROOTDIR/htdocs
-ALDDIR=$HTDOCSDIR/phpalarmserver
-SCRIPTSDIR=$ALDDIR/scripts
-PHPBASE=$BINDIR/php
+. ./config.sh
 
 mkcmd (){
 
@@ -22,19 +17,24 @@ mkcmd (){
 }
 
 
-# this is really bad scripting, but I am tired, trying to get the
-# latest version of php, which will be the last directory in the list
-PHPVERS=`ls -d $PHPBASE/php*`
+if [ "$UNIX" = "Darwin" ]
+then
+  # this is really bad scripting, but I am tired, trying to get the
+  # latest version of php, which will be the last directory in the list
+  PHPVERS=`ls -d $PHPBASE/php*`
 
-# for safety purposes if we don't find anything
-LAST=/usr/bin/php
+  # for safety purposes if we don't find anything
+  LAST=/usr
 
-for VER in $PHPVERS
-do
-  LAST=$VER
-done
+  for VER in $PHPVERS
+  do
+    LAST=$VER
+  done
 
-echo $LAST
+  echo $LAST
+else
+  LAST=/usr
+fi
 
 cd $ALDDIR
 

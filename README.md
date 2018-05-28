@@ -9,9 +9,19 @@ PHP Server that works with Nutechsoftware's alarmdecoder socket server.  Provide
 * Finally decided to replicate the RESP APIs.
 
 
-## Required software
+## Macos Required software
 * Software is PHP assuming a LAMP stack.  This code assumes it is MAMP: https://www.mamp.info/en/
 * On local network Nutechsoftware's ser2sock server is running and connected to an alarmdecoder device (Connected to an alarm panel).  https://github.com/nutechsoftware/ser2sock
+
+## Ubuntu required software
+* sudo apt-get intall php
+* sudo apt-get install sqlite3
+* sudo apt-get install php7.0.-sqlite
+
+## Apache configuration requirements
+* Enable sqlite3 module (requires restart)
+* Enable .htaccess.  Enable module and access: https://www.linode.com/docs/web-servers/apache/how-to-set-up-htaccess-on-apache/
+
 
 ## Future work
 * Update to work on Ubuntu unix as well

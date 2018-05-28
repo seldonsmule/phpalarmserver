@@ -1,7 +1,6 @@
-BOOTTIME=`sysctl -n kern.boottime |awk '{print $4}'`
-BOOTTIME=`echo ${BOOTTIME%?}`  # internet is wonderfull.  
-                               # this strips off the last char
-                               # which was a ','
+. ./config.sh
+
+BOOTTIME=`$SCRIPTSDIR/uptime.sh`
 
 TIMENOW=`date +"%s"`
 

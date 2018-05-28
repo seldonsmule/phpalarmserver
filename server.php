@@ -24,6 +24,8 @@ class restMsg {
     $this->uri = $_SERVER['REQUEST_URI'];
     $this->method = $_SERVER['REQUEST_METHOD'];
 
+$this->mylog->log(__FILE__,__LINE__, print_r($mylog));
+
     $url_details = parse_url($this->uri);
     $this->path = $url_details['path'];
     $this->query = $url_details['query'];
@@ -104,6 +106,7 @@ class Server {
         return;
       }
 
+
     
       header('HTTP/1.1 404 Not Found');
       return;
@@ -142,11 +145,15 @@ class Server {
         $myMsg = new AlarmDecoderMsg($this->mylog,$this->db); // convert message into something usable
         $myMsg->dump();
 
+        $this->mylog->log(__FILE__,__LINE__,"here\n");
+
         if(!$myMsg->validkey){
             $this->mylog->log(__FILE__,__LINE__,"sending not authorized\n");
             header('HTTP/1.1 403 Forbidden');
             return;
         }
+
+        $this->mylog->log(__FILE__,__LINE__,"here\n");
 
         switch($myMsg->method){
 
