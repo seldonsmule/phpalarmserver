@@ -14,5 +14,6 @@ PHP Server that works with Nutechsoftware's alarmdecoder socket server.  Provide
 * On local network Nutechsoftware's ser2sock server is running and connected to an alarmdecoder device (Connected to an alarm panel).  https://github.com/nutechsoftware/ser2sock
 
 ## Future work
+* Update to work on Ubuntu unix as well
 * SSL between Smartthings code and MAMP apache server
 * Config scripts auto adjust httpd and httpd-ssl conf files
