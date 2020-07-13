@@ -5,6 +5,7 @@ require_once('alarmmessage.php');
 require_once('alarmstate.php');
 require_once('db.php');
 require_once('logmsg.php');
+require_once('fake.php');
 
 
 class getAlarmDecoderResp{
@@ -25,6 +26,7 @@ class getAlarmDecoderResp{
   var $egc_state_text;
   var $egc_simple_msg;
   var $egc_datestring;
+  var $egc_fakemode;
 
   function __construct($state, $mylog){
     $myarray = explode(',', $state->last_raw_msg);
@@ -46,6 +48,10 @@ class getAlarmDecoderResp{
     $this->egc_hostname = gethostname();
     $this->egc_state_text = $state->state_text;
     $this->egc_datestring = $state->datestring;
+
+    $fake = new FakeMode($mylog);
+
+    $this->egc_fakemode = $fake->is_on();
 
 //$mylog->log(__FILE__,__LINE__,print_r($myarray,true));
 

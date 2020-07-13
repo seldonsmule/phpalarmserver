@@ -163,7 +163,12 @@ require_once('config.php');
         //printf("%s:%d: get_last_saved_state()\n", basename(__FILE__),__LINE__); 
 
         // get the last entry
-        $sql="select * from history where timestamp = (select max(timestamp) from history);";
+        // 7.8.2020 - updated logic to use rowid instead of timestamp
+        //            more accurate if you have subseccond updates
+        //            rowid is a hidden column that sqlite putss in 
+        //            by default.  
+        //$sql="select * from history where timestamp = (select max(timestamp) from history);";
+        $sql="select * from history where rowid = (select max(rowid) from history);";
 
         $ret = $this->query($sql);
 
@@ -172,6 +177,8 @@ require_once('config.php');
           //printf("%s:%d: get_last_saved_state(loading)\n", basename(__FILE__),__LINE__); 
 
           $last_buffer = $this->get_last_buffer();
+
+//print_r($row);
 
           if($existing_state != null){
             $existing_state->load($row['LAST_STATE'],
@@ -188,6 +195,7 @@ require_once('config.php');
           }
 
           $state = new AlarmState($this);
+
 
           $state->load($row['LAST_STATE'],
                        $row['DISARMED'],

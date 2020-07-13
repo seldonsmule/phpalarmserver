@@ -76,10 +76,12 @@ class AlarmState {
   }
 
   function load($state_text, $b_disarmed, $b_armed_away, $b_armed_stay, $b_armed_instant, $timestamp, $datestring, $panel, $last_raw_msg){
+
      $this->b_state_set = true;
      $this->state_text = $state_text;
 
      $this->b_disarmed = $this->b_armed_away = $this->b_armed_stay = $this->b_armed_instant = false;
+
 
      if($b_disarmed == 1) $this->b_disarmed = true;
      if($b_armed_away == 1) $this->b_armed_away = true;

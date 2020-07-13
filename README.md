@@ -22,6 +22,11 @@ PHP Server that works with Nutechsoftware's alarmdecoder socket server.  Provide
 * Enable sqlite3 module (requires restart)
 * Enable .htaccess.  Enable module and access: https://www.linode.com/docs/web-servers/apache/how-to-set-up-htaccess-on-apache/
 
+## Updated 07-13-2020
+* Added a simulator ability to simluate messages from the alarm panel without having to use the pnael.  A request from annoyed spouce and dogs
+* Removed the use of Mysql for sqlite3 instead
+
+
 
 ## Future work
 * Update to work on Ubuntu unix as well

@@ -7,6 +7,7 @@ require_once('alarmstate.php');
 require_once('db.php');
 require_once('json_resp.php');
 require_once('logmsg.php');
+require_once('fake.php');
 
 
 class restMsg {
@@ -24,7 +25,7 @@ class restMsg {
     $this->uri = $_SERVER['REQUEST_URI'];
     $this->method = $_SERVER['REQUEST_METHOD'];
 
-$this->mylog->log(__FILE__,__LINE__, print_r($mylog));
+//$this->mylog->log(__FILE__,__LINE__, print_r($mylog));
 
     $url_details = parse_url($this->uri);
     $this->path = $url_details['path'];
@@ -86,11 +87,14 @@ class Server {
     var $myMsg;
     var $mylog;
     var $db;
-    
+    var $fake;
+
     function __construct($mylog, $db){
 
       $this->mylog = $mylog;
       $this->db = $db;
+
+      $this->fake = new FakeMode($mylog);
     }
 
     public function process_get($msg){
@@ -115,8 +119,47 @@ class Server {
 
     public function process_post($msg){
 
+
+      if($this->fake->is_on()){
+        $this->mylog->log(__FILE__,__LINE__, sprintf("FAKE MODE POST send [%s] - not sending to panel", $msg->data->keys));
+
+        $usercode = substr($msg->data->keys,0,4);
+        $alarmcmd = substr($msg->data->keys,4,1);
+
+        $this->mylog->log(__FILE__,__LINE__, sprintf("FAKE MODE usercode [%s] alalarmcmd[%s]", $usercode, $alarmcmd));
+
+        switch($alarmcmd){
+
+          case "1":
+            $this->fake->send_disarm();
+          break;
+
+          case "2":
+            $this->fake->send_armaway();
+          break;
+
+          case "3":
+            $this->fake->send_armstay();
+          break;
+
+          default:
+            $this->mylog->log(__FILE__,__LINE__, sprintf("FAKE MODE unknown command [%s]", $alarmcmd));
+
+            header("HTTP/1.1 204 OK");
+
+          return;
+
+        }
+        
+        header("HTTP/1.1 204 OK");
+
+        return;
+      }
+
+
       if(strcmp($msg->path, "/api/v1/alarmdecoder/send") == 0){
-        $fp = fsockopen("macdaddy", 10000, $errno, $errstr, 30);
+        //$fp = fsockopen("macdaddy", 10000, $errno, $errstr, 30);
+        $fp = fsockopen("192.168.2.45", 10000, $errno, $errstr, 30);
 
         if (!$fp) {
            header("HTTP/1.1 422 Unprocessable Entity");
@@ -142,10 +185,10 @@ class Server {
 
     public function serve() {
 
+
         $myMsg = new AlarmDecoderMsg($this->mylog,$this->db); // convert message into something usable
         $myMsg->dump();
 
-        $this->mylog->log(__FILE__,__LINE__,"here\n");
 
         if(!$myMsg->validkey){
             $this->mylog->log(__FILE__,__LINE__,"sending not authorized\n");
@@ -153,7 +196,7 @@ class Server {
             return;
         }
 
-        $this->mylog->log(__FILE__,__LINE__,"here\n");
+        $this->mylog->log(__FILE__,__LINE__,sprintf("here \n"));
 
         switch($myMsg->method){
 

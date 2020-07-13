@@ -83,6 +83,10 @@ class AlarmMsg {
         $this->mylog->log(__FILE__,__LINE__, "Send Responce Msg");
       break;
 
+      case "!FAKE State Change":
+        $this->mylog->log(__FILE__,__LINE__, "Fake state change message");
+      break;
+
       default:
         //printf("Unknown cmd: [%s]\n", $tmp);
         $this->b_cmd_unknown = true;
@@ -188,6 +192,8 @@ class AlarmMsg {
     //$fp = fopen($filename, 'a');
 
     $mylog = new LogMsg($filename);
+    $mylog->set_roll_log(24); // new log file every 24 hours
+
 
     $len = strlen($this->buffer);
     $mylog->log(__FILE__,__LINE__,sprintf("(%d): %s", $len, rtrim($this->buffer)));

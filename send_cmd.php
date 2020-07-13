@@ -15,7 +15,8 @@
 
   echo "sending:$msg";
 
-  $fp = fsockopen("macdaddy", 10000, $errno, $errstr, 30);
+  //$fp = fsockopen("macdaddy", 10000, $errno, $errstr, 30);
+  $fp = fsockopen("192.168.2.45", 10000, $errno, $errstr, 30);
 
   if (!$fp) {
     echo "$errstr ($errno)<br />\n";

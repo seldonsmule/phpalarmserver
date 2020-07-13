@@ -6,6 +6,7 @@ require_once('alarmmessage.php');
 require_once('alarmstate.php');
 require_once('db.php');
 require_once('logmsg.php');
+require_once('fake.php');
 
 
 
@@ -21,6 +22,9 @@ $port = $argv[2];
 
 
 $mylog = new LogMsg("logs/listen.log");
+$mylog->set_roll_log(24); // new log file every 24 hours
+
+$fake = new FakeMode($mylog);
 
 $db = new MyDB();
 if(!$db) {
@@ -49,12 +53,12 @@ while(true){
   $mylog->log(__FILE__,__LINE__,
                sprintf("Opening socket:%s:%d", $hostname,$port));
 
-  $fp = fsockopen($hostname, $port, $errno, $errstr, 30);
-
-  if (!$fp) {
+  if(!$fake->open($hostname, $port)){
       $mylog->log(__FILE__,__LINE__, "$errstr ($errno)<br />");
   } else {
 
+
+    $fp = $fake->get_handle();
 
     while (!feof($fp)) { // keep reading while we can
 
@@ -63,10 +67,12 @@ while(true){
             $mylog->log(__FILE__,__LINE__,"WARNING - Admin Mode On");
           }
 
+
           if( ($buffer = fgets($fp)) == false){
             $mylog->log(__FILE__,__LINE__,"Ha!  trapped read error!");
             break;
           }
+
 
           $msg = new AlarmMsg($mylog, $buffer);
           $msg->log_buffer("logs/raw.out");
@@ -94,8 +100,13 @@ while(true){
 
 
        unset($msg);
+
+
+      $fp = $fake->get_handle();
+
     } // end while loop
-    fclose($fp);
+
+    $fake->close();
 
   } // end else
 

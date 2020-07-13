@@ -13,4 +13,4 @@ fi
 
 echo "Starting listen.php"
 cd $ROOTPATH
-php ./listen.php macdaddy 10000 > logs/listen.out 2>&1 &
+php ./listen.php 192.168.2.45 10000 > logs/listen.out 2>&1 &

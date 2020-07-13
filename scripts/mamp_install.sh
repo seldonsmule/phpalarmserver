@@ -7,6 +7,10 @@ ln -s $SCRIPTSDIR/egc* $BINDIR
 
 # put our index.php in place
 ln -s $ALDDIR/index_alarm.php $HTDOCSDIR/index.php
+
+# put fake_mode dir in place
+ln -s $ALDDIR/fake_mode $HTDOCSDIR/fake_mode
+
 #
 # install our .htaccess to force everything to go to our index.php
 ln -s $SCRIPTSDIR/htaccess $HTDOCSDIR/.htaccess

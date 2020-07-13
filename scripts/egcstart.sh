@@ -51,7 +51,8 @@ fi
 $ROOTDIR/bin/egcstartlisten.sh
 
 # 03252018 - added camera logfile listener
-$ROOTDIR/bin/egcstartreadcamlogs.sh
+# 07112020 - removed - running on bigmac
+#$ROOTDIR/bin/egcstartreadcamlogs.sh
 
 #/Applications/MAMP/bin/startMysql.sh
 #/Applications/MAMP/bin/startApache.sh
