@@ -1,9 +1,7 @@
 <?php
 
 require_once('logmsg.php');
-require_once('fake.php')
-
-nerd
+require_once('fake.php');
 
  $mylog = new LogMsg("fake.log");
 
